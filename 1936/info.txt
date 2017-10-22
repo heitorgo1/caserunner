@@ -1,0 +1,3 @@
+ID=1936
+NAME=Factorial
+TIMELIMIT=1
