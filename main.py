@@ -4,8 +4,8 @@ from datetime import datetime
 import subprocess
 from termcolor import colored, cprint
 
-DEFAULT_OUPUT = 'file name: {}\nExpected Ouput:\n{}\nActual Ouput:\n{}\nVerdict: {} (time: {})\n'
-ONELINE_OUTPUT = 'file name: {} {} (time: {})'
+DEFAULT_OUPUT = 'file name: {}\nInput:\n{}\nExpected Ouput:\n{}\nActual Ouput:\n{}\nVerdict: {} (time: {})\n'
+ONELINE_OUTPUT = 'file name: {:6} {} (time: {:4})'
 
 class TimeLimitExceeded (Exception):
     def __init__ (self, msg=None):
@@ -49,6 +49,8 @@ if __name__ == '__main__':
     program_path = os.path.join(fullpath, 'sol')
     info_path = os.path.join(fullpath, 'info.txt')
 
+    if not os.path.isfile(program_path):
+        exit ("Needs running program named sol.")
 
     info = {}
 
@@ -66,6 +68,9 @@ if __name__ == '__main__':
 
         time, actual_output = run_program(program_path, os.path.join(input_folder, input_file_path))
 
+        with open(os.path.join(input_folder, input_file_path), 'r') as f_in:
+            input_data = f_in.read()
+
         with open(os.path.join(output_folder, output_file), 'r') as f_out:
             expected_output = f_out.read()
         
@@ -81,6 +86,6 @@ if __name__ == '__main__':
         if oneline:
             print(ONELINE_OUTPUT.format(name, verdict, time))
         else:
-            print(DEFAULT_OUPUT.format(name, expected_output, actual_output, verdict, time))
+            print(DEFAULT_OUPUT.format(name, input_data, expected_output, actual_output, verdict, time))
     
     exit(1)
