@@ -50,6 +50,8 @@ if __name__ == '__main__':
     info_path = os.path.join(fullpath, 'info.txt')
 
     if not os.path.isfile(program_path):
+        program_path = os.path.join(fullpath, 'sol.exe')
+    if not os.path.isfile(program_path):
         exit ("Needs running program named sol.")
 
     info = {}
